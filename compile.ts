@@ -2,13 +2,11 @@ import "npm:typescript";
 import "npm:less";
 
 import sveltePreprocess from "npm:svelte-preprocess";
-import { compile, preprocess } from "npm:svelte/compiler";
 
 import { build, stop } from "https://deno.land/x/esbuild@v0.16.11/mod.js";
 import { httpImports } from "https://deno.land/x/esbuild_plugin_http_imports@v1.2.4/index.ts";
 import sveltePlugin from "npm:esbuild-svelte";
 
-const filename = "handWritten/index.svelte";
 const sveltePath = "https://esm.sh/svelte@3.55.0";
 
 // @ts-expect-error typescript what cocaine are you on that this isn't callable
@@ -27,8 +25,9 @@ const client = await build({
       },
     }),
     httpImports({
-    defaultToJavascriptIfNothingElseFound: true,
-  })],
+      defaultToJavascriptIfNothingElseFound: true,
+    }),
+  ],
   entryPoints: ["./handWritten/client.js"],
   mainFields: ["svelte", "browser", "module", "main"],
   outfile: "./bundle/client.js",
@@ -49,8 +48,9 @@ const server = await build({
       },
     }),
     httpImports({
-    defaultToJavascriptIfNothingElseFound: true,
-  })],
+      defaultToJavascriptIfNothingElseFound: true,
+    }),
+  ],
   entryPoints: ["./handWritten/index.svelte"],
   mainFields: ["svelte", "browser", "module", "main"],
   outfile: "./bundle/ssr.js",

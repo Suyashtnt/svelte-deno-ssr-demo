@@ -9,7 +9,7 @@ import {
 const router = new Router();
 
 const INDEX_PAGE = await Deno.readTextFile("./handWritten/index.html");
-const INDEX_JS = await Deno.readTextFile("./bundle/client.js")
+const INDEX_JS = await Deno.readTextFile("./bundle/client.js");
 
 router
   .get("/", ({ response }) => {
@@ -21,16 +21,16 @@ router
     response.body = ssrPage;
   })
   .get("/index.css", ({ response }) => {
-    const { css } = App.render()
+    const { css } = App.render();
 
     response.status = 200;
-    response.headers.set("Content-Type", "text/css")
-    response.body = css.code
+    response.headers.set("Content-Type", "text/css");
+    response.body = css.code;
   })
   .get("/index.js", ({ response }) => {
     response.status = 200;
-    response.headers.set("Content-Type", "text/javascript")
-    response.body = INDEX_JS
+    response.headers.set("Content-Type", "text/javascript");
+    response.body = INDEX_JS;
   });
 
 const appOptions = hasFlash() ? { serverConstructor: FlashServer } : undefined;
