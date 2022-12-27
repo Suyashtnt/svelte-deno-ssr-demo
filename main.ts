@@ -9,7 +9,7 @@ import {
 const router = new Router();
 
 const INDEX_PAGE = await Deno.readTextFile("./handWritten/index.html");
-const INDEX_JS = await Deno.readTextFile("./bundle/index.js")
+const INDEX_JS = await Deno.readTextFile("./bundle/client.js")
 
 router
   .get("/", ({ response }) => {

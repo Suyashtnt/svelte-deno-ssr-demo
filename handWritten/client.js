@@ -1,4 +1,4 @@
-import App from "../bundle/App.js";
+import App from "./index.svelte";
 
 const app = new App({
   target: document.querySelector("#client"),
