@@ -47,8 +47,12 @@ const result = await build({
   })],
   entryPoints: ["./handWritten/client.js"],
   outfile: "./bundle/index.js",
+  metafile: true,
   bundle: true,
+  minify: true,
   format: "esm",
 });
+
+await Deno.writeTextFile("./bundle/index.js.meta.json", JSON.stringify(result.metafile));
 
 stop();
