@@ -8,13 +8,13 @@ import { httpImports } from "https://deno.land/x/esbuild_plugin_http_imports@v1.
 import sveltePlugin from "npm:esbuild-svelte";
 import { BuildOptions } from "../.cache/deno/npm/registry.npmjs.org/typescript/4.9.4/lib/typescript.d.ts";
 
-const sveltePath = "https://esm.sh/svelte@3.55.0";
 
 // @ts-expect-error typescript what cocaine are you on that this isn't callable
 const preprocessor = sveltePreprocess();
 
 await Deno.mkdir("bundle", { recursive: true });
 
+const sveltePath = "https://esm.sh/svelte@3.55.0";
 const defaultSvelteOpts = {
   preprocess: preprocessor,
   compilerOptions: {
@@ -55,6 +55,7 @@ const server = await build({
     sveltePlugin({
       ...defaultSvelteOpts,
       compilerOptions: {
+        ...defaultSvelteOpts.compilerOptions,
         generate: "ssr",
       },
     }),
