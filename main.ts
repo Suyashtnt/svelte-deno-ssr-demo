@@ -11,14 +11,27 @@ const router = new Router();
 const INDEX_PAGE = await Deno.readTextFile("./handWritten/index.html");
 const INDEX_JS = await Deno.readTextFile("./bundle/client.js");
 
+const CUSTOM_ELEMENTS_PAGE = await Deno.readTextFile('./handWritten/customElements.html')
+const CUSTOM_ELEMENTS_JS = await Deno.readTextFile('./bundle/component.js')
+
 router
   .get("/", ({ response }) => {
     const { html } = App.render();
     const ssrPage = INDEX_PAGE.replace("%code%", html);
 
     response.status = 200;
-    response.headers.set("Content-Type", "text/html"); // set to html if you want
+    response.headers.set("Content-Type", "text/html");
     response.body = ssrPage;
+  })
+  .get("/customElements", ({ response }) => {
+    response.status = 200;
+    response.headers.set("Content-Type", "text/html");
+    response.body = CUSTOM_ELEMENTS_PAGE;
+  })
+  .get("/component.js", ({ response }) => {
+    response.status = 200;
+    response.headers.set("Content-Type", "text/javascript");
+    response.body = CUSTOM_ELEMENTS_JS;
   })
   .get("/index.css", ({ response }) => {
     const { css } = App.render();

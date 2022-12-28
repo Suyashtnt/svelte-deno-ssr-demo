@@ -12,6 +12,9 @@ import { BuildOptions } from "../.cache/deno/npm/registry.npmjs.org/typescript/4
 // @ts-expect-error typescript what cocaine are you on that this isn't callable
 const preprocessor = sveltePreprocess();
 
+const bundleExists = await Deno.stat("bundle").catch(() => false);
+if (bundleExists) await Deno.remove("bundle", { recursive: true });
+
 await Deno.mkdir("bundle", { recursive: true });
 
 const sveltePath = "https://esm.sh/svelte@3.55.0";
@@ -65,7 +68,26 @@ const server = await build({
   outfile: "./bundle/ssr.js",
 });
 
+// web component test
+const webComponent = await build({
+  ...defaultEsbuildOpts,
+  plugins: [
+    // @ts-expect-error typescript what cocaine are you on that this isn't callable
+    sveltePlugin({
+      ...defaultSvelteOpts,
+      compilerOptions: {
+        ...defaultSvelteOpts.compilerOptions,
+        customElement: true,
+      },
+    }),
+    httpImport
+  ],
+  entryPoints: ["./handWritten/component.svelte"],
+  outfile: "./bundle/component.js",
+});
+
 await Deno.writeTextFile("./bundle/client.meta.json", JSON.stringify(client.metafile));
 await Deno.writeTextFile("./bundle/ssr.meta.json", JSON.stringify(server.metafile));
+await Deno.writeTextFile("./bundle/component.meta.json", JSON.stringify(webComponent.metafile));
 
 stop();

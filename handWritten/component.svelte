@@ -11,6 +11,8 @@
     }
 </script>
 
+<svelte:options tag="deno-test-component" />
+
 <p>{saying}</p>
 
 <button on:click={runConfetti}>Click me</button>
